@@ -12,6 +12,7 @@ function ProductList({ onHomeClick }) {
     const cartItems = useSelector(state => state.cart.items);
     const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
   
+    
     const plantsArray = [
         {
             category: "Air Purifying Plants",

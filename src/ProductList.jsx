@@ -7,9 +7,9 @@ import { useDispatch } from 'react-redux';
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({})
-    const dispatch = useDispatch()
-    
+    const [addedToCart, setAddedToCart] = useState({});//initiliaze these to toggle states later
+    const dispatch = useDispatch();
+
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -305,10 +305,12 @@ function ProductList({ onHomeClick }) {
                                         <div className="product-description">{plant.description}</div> {/* Display plant description */}
                                         <div className="product-cost">{plant.cost}</div> {/* Display plant cost */}
                                         <button
+                                            disabled={addedToCart[plant.name]}
+                                            style={{ backgroundColor: addedToCart[plant.name] ? 'gray' : 'green' }}
                                             className="product-button"
                                             onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
                                         >
-                                            Add to Cart
+                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
                                         </button>
                                     </div>
                                 ))}

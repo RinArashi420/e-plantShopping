@@ -7,12 +7,10 @@ import { useDispatch,useSelector } from 'react-redux';
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedToCart, setAddedToCart] = useState({});//initiliaze these to toggle states later
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
     const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-  
-    
+ 
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -260,12 +258,8 @@ function ProductList({ onHomeClick }) {
         e.preventDefault();
         setShowCart(false);
     };
-    const handleAddToCart = (product) => {
-        dispatch(addItem(product));//dispatch the action to add product to cart
-        setAddedToCart(prevState => ({//update local state to reflect product has been added
-            ...prevState,
-            [product.name]: true,//sets product name to a value of True, mark as added to cart.
-        }));
+    const handleAddToCart = (plant) => {
+        dispatch(addItem(plant));//dispatch the action to add product to cart
     };
 
     return (
@@ -312,7 +306,10 @@ function ProductList({ onHomeClick }) {
                                 <div>{category.category}</div> {/* Display the category name */}
                             </h1>
                             <div className="product-list"> {/* Container for the list of plant cards */}
-                                {category.plants.map((plant, plantIndex) => ( // Loop through each plant in the current category
+                                {category.plants.map((plant, plantIndex) => {
+                                    const isInCart = cartItems.some(item => item.name === plant.name);
+                                    return(
+                                     // Loop through each plant in the current category
                                     <div className="product-card" key={plantIndex}> {/* Unique key for each plant card */}
                                         <img 
                                             className="product-image" 
@@ -324,15 +321,16 @@ function ProductList({ onHomeClick }) {
                                         <div className="product-description">{plant.description}</div> {/* Display plant description */}
                                         <div className="product-cost">{plant.cost}</div> {/* Display plant cost */}
                                         <button
-                                            disabled={addedToCart[plant.name]}
-                                            style={{ backgroundColor: addedToCart[plant.name] ? 'gray' : 'green' }}
+                                            disabled={isInCart}
+                                            style={{ backgroundColor: isInCart ? 'gray' : 'green' }}
                                             className="product-button"
                                             onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
                                         >
-                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                                            {isInCart ? 'Added to Cart' : 'Add to Cart'}
                                         </button>
                                     </div>
-                                ))}
+                                )
+})}
                             </div>
                         </div>
                     ))}

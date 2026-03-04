@@ -43,11 +43,6 @@ const CartItem = ({ onContinueShopping }) => {
 
   const handleRemove = (item) => {
     dispatch(removeItem(item.name));
-    //enable the button again
-    setAddedToCart(prevState => ({//update local state to reflect product has been added
-        ...prevState,
-        [item.name]: false,//sets product name to a value of fa.
-    }));
   };
 
   // Calculate total cost based on quantity for an item

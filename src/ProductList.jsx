@@ -262,7 +262,7 @@ function ProductList({ onHomeClick }) {
     };
     const handleAddToCart = (product) => {
         dispatch(addItem(product));//dispatch the action to add product to cart
-        setAddedToCart(prevState => ({//update local state to replect product has been added
+        setAddedToCart(prevState => ({//update local state to reflect product has been added
             ...prevState,
             [product.name]: true,//sets product name to a value of True, mark as added to cart.
         }));
